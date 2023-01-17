@@ -35,8 +35,7 @@ contract('TurkishFootballCards', (accounts) => {
         it("Should mint an nft", async() => {
     
 
-           // const mint_result = await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215",{from:accounts[0], value:web3.utils.toWei('0.002', 'Ether')});
-            const mint_result = await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215",{from:accounts[0]});
+            const mint_result = await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215",{from:accounts[0], value:web3.utils.toWei('0.002', 'Ether')});
 
             const count = await marketplaceInstance.nftCount();
             const creation_event = mint_result.logs[0].args;
@@ -64,8 +63,8 @@ contract('TurkishFootballCards', (accounts) => {
             await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215", {from:accounts[1], value:web3.utils.toWei('0.002', 'Ether')}).should.be.rejected;
 
             //try to mint with wrong value on the message
-            //await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215", {from:accounts[0]}).should.be.rejected;
-            //await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215", {from:accounts[0], value:web3.utils.toWei('0.001', 'Ether')}).should.be.rejected;
+            await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215", {from:accounts[0]}).should.be.rejected;
+            await marketplaceInstance.mint(web3.utils.toWei('10','Ether'), "https://www.thisIsTheURIofThisNFT.com/215", {from:accounts[0], value:web3.utils.toWei('0.001', 'Ether')}).should.be.rejected;
 
 
 
@@ -82,8 +81,9 @@ contract('TurkishFootballCards', (accounts) => {
             const new_balance = await web3.eth.getBalance(accounts[0]);
             const nft_info = await marketplaceInstance.nfts(0);
 
-            const transfer_event = await buy.logs[0].args;
-            const purchase_event = await buy.logs[1].args;
+            const purchase_event = await buy.logs[0].args;
+            const transfer_event = await buy.logs[1].args;
+            
 
             
             //see ownership transfer
@@ -103,8 +103,6 @@ contract('TurkishFootballCards', (accounts) => {
             //insert invalid nftID
             await marketplaceInstance.purchaseCard(2, {from: accounts[1], value: web3.utils.toWei('10','Ether')}).should.be.rejected;            
         })
-
-       
 
     
     })
